@@ -13,11 +13,42 @@ use Mix.Config
 #   rootfs_overlay: "rootfs_overlay",
 #   fwup_conf: "config/fwup.conf"
 
+
+#
+# nerves_network
+#
+key_mgmt = System.get_env("NERVES_NETWORK_KEY_MGMT") || "WPA-PSK"
+
+config :nerves_network, regulatory_domain: "US"
+config :nerves_network, :default,
+  wlan0: [
+    ssid: System.get_env("NERVES_NETWORK_SSID"),
+    psk: System.get_env("NERVES_NETWORK_PSK"),
+    key_mgmt: String.to_atom(key_mgmt)
+  ],
+  eth0: [
+    ipv4_address_method: :dhcp
+  ]
+
+#
+# nerves_firmware_ssh
+#
+config :nerves_firmware_ssh,
+  authorized_keys: [
+    File.read!(Path.join(System.user_home!, ".ssh/id_rsa.pub"))
+  ]
+
+#
+# nerves_one
+#
+config :nerves_one, interface: :wlan0
+
+
 # Use shoehorn to start the main application. See the shoehorn
 # docs for separating out critical OTP applications such as those
 # involved with firmware updates.
 config :shoehorn,
-  init: [:nerves_runtime],
+  init: [:nerves_runtime, :nerves_network, :nerves_firmware_ssh],
   app: Mix.Project.config()[:app]
 
 # Import target specific config. This must remain at the bottom

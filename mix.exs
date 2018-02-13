@@ -19,7 +19,7 @@ defmodule NervesOne.MixProject do
       version: "0.1.0",
       elixir: "~> 1.4",
       target: @target,
-      archives: [nerves_bootstrap: "~> 0.7"],
+      archives: [nerves_bootstrap: "~> 0.8"],
       deps_path: "deps/#{@target}",
       build_path: "_build/#{@target}",
       lockfile: "mix.lock.#{@target}",
@@ -56,7 +56,10 @@ defmodule NervesOne.MixProject do
   defp deps(target) do
     [
       {:shoehorn, "~> 0.2"},
-      {:nerves_runtime, "~> 0.4"}
+      {:nerves_runtime, "~> 0.4"},
+      {:nerves_network, "~> 0.3"},
+      {:nerves_firmware_ssh, "~> 0.2"},
+      {:nerves_runtime_shell, "~> 0.1.0"}
     ] ++ system(target)
   end
 
