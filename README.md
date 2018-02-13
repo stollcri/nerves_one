@@ -16,9 +16,14 @@ https://hexdocs.pm/nerves/targets.html#content
 
 ## Getting Started
 
+Create a .env which contains the variables listed below, and then run `source .env` in a terminal
+```
+export MIX_TARGET=rpi2
+export NERVES_NETWORK_SSID="WiFi_Name"
+export NERVES_NETWORK_PSK="WiFi_Password"
+```
+
 To start your Nerves app:
-  * `export MIX_TARGET=my_target` or prefix every command with
-    `MIX_TARGET=my_target`. For example, `MIX_TARGET=rpi3`
   * Install dependencies with `mix deps.get`
   * Create firmware with `mix firmware`
   * Burn to an SD card with `mix firmware.burn`
